@@ -8,6 +8,18 @@ Objective: Order the greatest possible no. of pizza slices
 1. Only can order one of each type
 2. Total slices cannot be greater than M (Max. slices)
 
+## Current Program Status
+
+Program is able to identify largest no. of pizza slices by summing total pizza slices in descending order of list. However, the final no. of possible pizza slices can be further increased by summing up smaller values to form bigger values, as compared to choosing a single large value.
+
+Example:
+
+    max = 20
+    num_list = [2, 2, 3, 6, 10]
+
+    Given results = [3, 6, 10] {19}
+    Expected results = [2, 2, 6, 10] {20}
+
 ## Examples
 a.
 <br />
