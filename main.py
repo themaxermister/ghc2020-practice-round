@@ -15,7 +15,7 @@ def outputFile(results, originfile):
     if not os.path.exists("submission"):
         os.mkdir("submission")
     mainFolder = ""
-    newName = ("submission/results_%s" % (originfile))
+    newName = ("submission/results_%s.out" % (originfile))
     with open(newName, 'w') as the_file:
         the_file.write("%s\n" % (str(len(results))))
         values = ' '.join(reversed([str(elem) for elem in list(results.keys())]))
@@ -23,7 +23,7 @@ def outputFile(results, originfile):
 
     print("Successful! File is located at %s" % (newName))
     print("No. of pizza types:", len(results))
-    print("Pizza Type List:", values)
+    #print("Pizza Type List:", values)
 
 def main():
     totalPoints = 0
@@ -33,7 +33,7 @@ def main():
         no_type = 0
         type_menu = []
         target_file = input("Filepath: ")
-        filename = os.path.basename(target_file)
+        filename = os.path.basename(target_file).split(".")[0]
         if target_file == "clear":
             totalPoints = 0
             print("Total points is 0.\n")
