@@ -1,28 +1,16 @@
 import os
 import copy
-import itertools
 
-def getRepeatIndex(target, item_list):
-    new_list = {}
-    repeat_list = [i for i,d in enumerate(item_list) if d==target]
-
-    for item in repeat_list:
-        if item not in new_list.keys():
-            return item
-            
-def process(max, menu):
-    results = []
-    current_slices = menu[0];
-    results.append(current_slices)
-    for index, slice_type in enumerate(menu):
-        if index > 0:
-            next_count = current_slices + slice_type
-            if next_count > max:
-                return results, current_slices
-            else:
-                results.append(slice_type)
-                current_slices = next_count
-            
+def process(base, max, menu, menu_length):
+    results = {}
+    current_slices = base;
+    for slice_type in reversed(range(menu_length)):
+        next_count = current_slices + menu[slice_type]
+        if next_count <= max:
+            results.update({slice_type : menu[slice_type]})
+            current_slices = next_count
+    
+    return results, current_slices
 
 def outputFile(results, originfile):
     if not os.path.exists("submission"):
@@ -31,7 +19,7 @@ def outputFile(results, originfile):
     newName = ("submission/results_%s.out" % (originfile))
     with open(newName, 'w') as the_file:
         the_file.write("%s\n" % (str(len(results))))
-        values = ' '.join([str(elem) for elem in list(results)])
+        values = ' '.join(reversed([str(elem) for elem in list(results.keys())]))
         the_file.write(values)
 
     print("Successful! File is located at %s" % (newName))
@@ -71,21 +59,22 @@ def main():
                 
                 if len(type_menu) == no_type:
                     # Process
-                    best_results = []
-                    best_slices = 0
-                    for combo in set(itertools.permutations(type_menu)):
-                        new_results, new_slices = process(max_slices, list(combo))
-                        if new_slices > best_slices:
-                            best_results = new_results
-                            best_slices = new_slices
-                    
-                    final_dict = {}
-                    for pizza_type in best_results:
-                        final_dict[getRepeatIndex(pizza_type, type_menu)] = pizza_type
-                    
-                    outputFile(sorted(final_dict.keys()), filename)
+                    base = type_menu[-1]
+                    currentPoints = 0
+                    for entry in range(0, no_type-2):
+                        current_menu = copy.deepcopy(type_menu)
+                        current_menu[entry] = 0
+                        results, newPoints = process(base, max_slices, current_menu[0:len(current_menu)-1], len(current_menu)-1)
+                        if newPoints > currentPoints:
+                            currentPoints = newPoints
+                            outputFile(results, filename)
+                            totalPoints += newPoints
+                        else:
+                            print("New Points: %d is lower than previous points: %d" % (newPoints, currentPoints))
+                        
+                    print("New Points:", newPoints, "/", max_slices, "\n")
+                    print("Current Total Points:", totalPoints)
 
-                    print("Total Slices: %d" % (sum(final_dict.values())))
                 else:
                     print('ERROR: Menu is incomplete.\n')
 

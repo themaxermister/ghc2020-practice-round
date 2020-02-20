@@ -10,7 +10,7 @@ Objective: Order the greatest possible no. of pizza slices
 
 ## Current Program Status
 
-Program is able to identify largest no. of pizza slices by summing total pizza slices in descending order of list. However, the final no. of possible pizza slices can be further increased by summing up smaller values to form bigger values, as compared to choosing a single large value.
+Program removes a value each time and sums the value to the max using the last item in the list as the base value. More can be done to use different items in the list as a base. [https://docs.python.org/3/library/itertools.html#itertools.combinations]
 
 Example:
 
