@@ -79,13 +79,13 @@ def main():
                             best_results = new_results
                             best_slices = new_slices
                     
-                    final_dict = {}
+                    pizza_list = []
                     for pizza_type in best_results:
-                        final_dict[getRepeatIndex(pizza_type, type_menu)] = pizza_type
-                    
-                    outputFile(sorted(final_dict.keys()), filename)
+                        pizza_list.append(getRepeatIndex(pizza_type, type_menu))
 
-                    print("Total Slices: %d" % (sum(final_dict.values())))
+                    outputFile(sorted(pizza_list), filename)
+
+                    print("Total Slices: %d" % (sum(best_results)))
                 else:
                     print('ERROR: Menu is incomplete.\n')
 
